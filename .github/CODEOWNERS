@@ -1,0 +1,13 @@
+# Default reviewers by path (GitHub CODEOWNERS)
+# Accounts: repository owner Dmoore628 (Damian). Richard and Stephen are named in docs
+# because they may not have GitHub handles in this example.
+
+* @Dmoore628
+
+/src/bookstore/services/inventory.py @Dmoore628
+/src/bookstore/services/checkout.py @Dmoore628
+/src/bookstore/services/sales.py @Dmoore628
+/src/bookstore/services/orders.py @Dmoore628
+/src/bookstore/services/requests.py @Dmoore628
+/src/bookstore/security.py @Dmoore628
+/.github/ @Dmoore628
