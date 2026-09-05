@@ -1,6 +1,6 @@
 # Product backlog
 
-Source: `Final_Sprint_Planning_Document_v2.xlsx` (CS491/CS492). Original PO: Damian Jay Moore. Scrum Master and development team were blank in the workbook; this build assigns Richard Hale and Stephen Park.
+Source: `Final_Sprint_Planning_Document_v2.xlsx` (CS491/CS492). Original PO: Damian Jay Moore. Scrum Master and development team were blank in the workbook; this build assigns Richard Mora and Stephen Merten.
 
 Sprints are two weeks.
 

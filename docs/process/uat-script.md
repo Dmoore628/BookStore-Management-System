@@ -1,4 +1,4 @@
-# UAT script (Stephen Park)
+# UAT script (Stephen Merten)
 
 Run on staging after `develop` is merged. Sign in as each role.
 

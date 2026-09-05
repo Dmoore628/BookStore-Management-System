@@ -1,6 +1,6 @@
 # Standup notes (sample week)
 
-Format: yesterday / today / blocker. Facilitator: Richard Hale.
+Format: yesterday / today / blocker. Facilitator: Richard Mora.
 
 ## 2026-08-25
 

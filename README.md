@@ -1,102 +1,115 @@
-# Ledger & Spine — Bookstore Management System
+<div align="center">
 
-Staff software that replaces paper stock cards, the cash-register log, and the special-order notebook for a small independent bookstore.
+# 📚 Ledger & Spine — Bookstore Management System
 
-GitHub: [Dmoore628/BookStore-Management-System](https://github.com/Dmoore628/BookStore-Management-System)
+**A staff-facing system that replaces a small bookstore's paper stock cards, cash-register log, and special-order notebook with one reliable application.**
 
-## What this means for the store
+CS492 Capstone · Colorado Technical University · Group 6
+Scrum + XP · FastAPI · PostgreSQL · Vercel
 
-Cashiers look up a title, take cash or card, and the shelf count drops by itself. Managers see today’s drawer, mark a publisher shipment received, and take special orders without leaving a sticky note on the counter. Passwords are never stored in readable form. Customer phone numbers and emails are encrypted.
+[Repository](https://github.com/Dmoore628/BookStore-Management-System) ·
+[Architecture](docs/architecture/system-design.md) ·
+[Process & Scrum](docs/process/) ·
+[Design spec](docs/superpowers/specs/2026-09-05-bookstore-management-system-design.md)
 
-## Team
+</div>
 
-| Name | Roles on this project |
-| --- | --- |
-| **Damian J. Moore** | Product Owner, solution architecture, authentication and secrets, CI/CD, production branch |
-| **Richard Mora** | Scrum Master, inventory module, POS/checkout math, daily sales log |
-| **Stephen ** | QA lead, supplier orders, customer requests, backups, automated tests |
+---
 
-## Branches (how the GitHub repo is organized)
+## What it does
 
-| Branch | Purpose |
-| --- | --- |
-| `main` | Production. Only merged from `staging` after a release checklist. |
-| `staging` | Pre-production. Merged from `develop` for owner demo and staff UAT. |
-| `develop` | Integration. Feature branches merge here after review. |
-| `feature/BMS-*` | One branch per backlog item (see `docs/process/branching-strategy.md`). |
+| Module | Story | What the staff can do |
+|---|---|---|
+| **Inventory** | BMS-1, BMS-2 | Add/edit/search books; stock updates automatically through an append-only ledger |
+| **Cart & POS** | BMS-3, BMS-9 | Build a multi-item cart, see live tax/totals, take cash or card, get exact change |
+| **Sales log** | BMS-4 | Review the day's cash vs. card takings (store-timezone correct) |
+| **Supplier orders** | BMS-5 | Track incoming shipments; receiving increments stock |
+| **Customer requests** | BMS-6 | Log special orders with encrypted customer contact details |
+| **Access & security** | BMS-7, BMS-8 | Role-based logins; hashed passwords; encrypted PII |
 
-## Run locally (without Docker)
+## Team & Scrum roles
 
-1. Copy `.env.example` to `.env` and fill in `SECRET_KEY`, `ENCRYPTION_KEY`, and `INITIAL_OWNER_PASSWORD`.
-2. Create a virtual environment and install:
+| Member | Scrum role | Focus |
+|---|---|---|
+| **Damian J. Moore** | Product Owner | Architecture, auth/secrets, CI/CD, releases |
+| **Richard Mora** | Scrum Master | Inventory, POS/checkout, facilitation |
+| **Stephen Merten** | Developer (QA Lead) | Testing, orders, backups, E2E |
+| **Daniel Richards** | Developer | Cart, sales log, requests, UI/UX |
+
+## Quick start (5 minutes)
 
 ```powershell
+# 1. Configure — copy the template and fill in the secrets it documents
+copy .env.example .env
+python -c "import secrets; print(secrets.token_urlsafe(48))"                    # -> SECRET_KEY
+python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"  # -> ENCRYPTION_KEY
+
+# 2. Install
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -e ".[dev]"
-python -m scripts.seed
-uvicorn bookstore.main:app --reload --host 127.0.0.1 --port 8000
-```
 
-3. Open http://127.0.0.1:8000 and sign in.
-
-| Seed user | Role |
-| --- | --- |
-| `INITIAL_OWNER_USERNAME` (example: `damian`) | owner |
-| `richard` | manager |
-| `stephen` | cashier |
-
-Passwords come from `.env` (`INITIAL_OWNER_PASSWORD`, `SEED_MANAGER_PASSWORD`, `SEED_CASHIER_PASSWORD`). Never commit the real `.env`.
-
-Generate a Fernet key:
-
-```powershell
-python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
-```
-
-## Tests
-
-```powershell
+# 3. Run the tests (should be all green)
 pytest
+
+# 4. Seed demo data and launch the console
+python -m scripts.seed
+uvicorn bookstore.main:app --reload
 ```
 
-CI fails the build if coverage of `src/bookstore` is under **80%**.
+Then open <http://127.0.0.1:8000> and sign in with the seeded accounts (see `.env`).
 
-## Docker
-
-Docker Desktop is used for PostgreSQL-backed staging/production-like runs.
+### With Docker (PostgreSQL-backed, closest to production)
 
 ```powershell
 copy .env.example .env
 docker compose up --build
 ```
 
-Staging / production overlays:
+## Architecture at a glance
+
+A layered monolith — pure domain logic, thin HTTP layer, server-rendered UI:
+
+```
+config → database → security → models → schemas → services (domain) → api routers → web (UI)
+```
+
+- **Money** is `Decimal` end-to-end with half-up rounding — never floats.
+- **Stock** is an append-only ledger; checkout uses an **atomic, oversell-safe** decrement.
+- **Everything is configuration** — no hardcoded secrets or business constants (see `.env.example`).
+
+Full detail: [`docs/architecture/system-design.md`](docs/architecture/system-design.md) ·
+Repository layout: [`docs/architecture/repository-structure.md`](docs/architecture/repository-structure.md)
+
+## Testing
 
 ```powershell
-docker compose -f docker-compose.yml -f docker-compose.staging.yml up --build
-docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build
+pytest                       # unit + integration, coverage gate 80%
+ruff check src tests         # lint
+mypy src                     # types
 ```
+
+The full pyramid (property-based, contract, E2E/Playwright, accessibility, visual, security, load,
+mutation) is described in [`docs/qa/test-strategy.md`](docs/qa/test-strategy.md).
+
+## Branching & environments
+
+`feature/BMS-*` → `develop` (integration) → `staging` (QA/UAT) → `main` (production).
+See [`docs/process/branching-strategy.md`](docs/process/branching-strategy.md) and
+[`docs/process/environments.md`](docs/process/environments.md).
 
 ## Documentation map
 
-| Document | Audience |
-| --- | --- |
-| `docs/user/staff-manual.md` | Cashiers and managers (non-technical) |
-| `docs/user/business-guide.md` | Bookstore owner |
-| `docs/architecture/system-design.md` | Developers |
-| `docs/architecture/database.md` | Developers / DB |
-| `docs/process/branching-strategy.md` | Whole team |
-| `docs/process/definition-of-done.md` | Whole team |
-| `docs/process/team-roles.md` | Whole team |
-| `task_log.md` | Build diary |
-
-## Rollback
-
-- **Application:** redeploy the previous `main` image/tag; database stays compatible within a release.
-- **Feature flag equivalent:** deactivate a book rather than deleting sales history.
-- **Data:** restore the latest JSON file from `BACKUP_DIR` (manager action in the console).
+| Area | Location |
+|---|---|
+| Architecture, ADRs, diagrams | [`docs/architecture/`](docs/architecture/) |
+| Scrum process, sprints, retros, traceability | [`docs/process/`](docs/process/) |
+| Project management (charter, RACI, risk, NFRs) | [`docs/management/`](docs/management/) |
+| QA & test strategy | [`docs/qa/`](docs/qa/) |
+| User guides | [`docs/user/`](docs/user/) |
+| Original course source | [`docs/course-source/`](docs/course-source/) |
+| Design spec & implementation plan | [`docs/superpowers/`](docs/superpowers/) |
 
 ## License
 
-Course example project. Course source artifacts are stored in `docs/course-source/`.
+MIT — see [LICENSE](LICENSE). Course source artifacts are preserved in `docs/course-source/`.

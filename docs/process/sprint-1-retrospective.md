@@ -1,8 +1,8 @@
 # Sprint 1 retrospective
 
 **Dates:** 2026-08-24 through 2026-09-04  
-**Facilitator:** Richard Hale  
-**Attendees:** Damian J. Moore, Richard Hale, Stephen Park
+**Facilitator:** Richard Mora  
+**Attendees:** Damian J. Moore, Richard Mora, Stephen Merten
 
 ## Went well
 

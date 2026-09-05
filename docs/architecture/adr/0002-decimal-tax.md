@@ -2,7 +2,7 @@
 
 **Status:** Accepted  
 **Date:** 2026-08-25  
-**Deciders:** Richard Hale (POS), Stephen Park (QA)
+**Deciders:** Richard Mora (POS), Stephen Merten (QA)
 
 ## Context
 

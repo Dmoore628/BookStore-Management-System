@@ -2,7 +2,7 @@
 
 **Status:** Accepted  
 **Date:** 2026-08-24  
-**Deciders:** Damian J. Moore, Richard Hale, Stephen Park
+**Deciders:** Damian J. Moore, Richard Mora, Stephen Merten
 
 ## Context
 

@@ -35,8 +35,8 @@ multi-store tenancy, barcode hardware, accounting exports. These are out of scop
 | **Stephen Merten** | Developer (QA Lead) | Test strategy, supplier/customer orders, backups, E2E |
 | **Daniel Richards** | Developer | Cart, daily sales log, customer requests, UI/UX, integration |
 
-Older files used incorrect names ("Richard Hale", "Stephen Park") and a single placeholder owner.
-These MUST be corrected in every source, doc, and metadata file.
+Older files used incorrect surnames (e.g. "Richard Hale", "Stephen Park") and a single placeholder
+owner. These have been corrected in every source, doc, and metadata file.
 
 **Attribution:** git authorship, pair-programming `Co-authored-by:` trailers, and PR authorship use
 each member's real name + GitHub email (provided by the PO). History is reconstructed by the tooling

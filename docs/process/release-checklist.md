@@ -1,8 +1,8 @@
 # Release checklist (`staging` → `main`)
 
 Product Owner: Damian J. Moore  
-QA: Stephen Park  
-Scrum Master: Richard Hale  
+QA: Stephen Merten  
+Scrum Master: Richard Mora  
 
 - [ ] `develop` merged to `staging`; Actions CI green on both.
 - [ ] Staging Compose stack started against PostgreSQL.

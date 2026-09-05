@@ -1,8 +1,8 @@
 # Sprint 2 retrospective
 
 **Dates:** 2026-09-04 through 2026-09-18 (planned window; implementation completed on the release candidate)  
-**Facilitator:** Richard Hale  
-**Attendees:** Damian J. Moore, Richard Hale, Stephen Park
+**Facilitator:** Richard Mora  
+**Attendees:** Damian J. Moore, Richard Mora, Stephen Merten
 
 ## Went well
 

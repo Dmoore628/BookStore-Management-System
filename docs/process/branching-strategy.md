@@ -1,6 +1,6 @@
 # Branching strategy
 
-**Owners:** Damian J. Moore (DevOps), Richard Hale (Scrum Master)
+**Owners:** Damian J. Moore (DevOps), Richard Mora (Scrum Master)
 
 This repository uses a three-lane Gitflow. Feature work never lands directly on production.
 

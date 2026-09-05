@@ -3,7 +3,7 @@
 **Project:** Bookstore Management System  
 **Organization:** Colorado Technical University, CS491  
 **Product Owner in workbook:** Damian Jay Moore  
-**Scrum Master / development team in workbook:** not filled in (assigned in this repo to Richard Hale and Stephen Park)
+**Scrum Master / development team in workbook:** not filled in (assigned in this repo to Richard Mora and Stephen Merten)
 
 | Story ID | Title | Priority | Sprint |
 | --- | --- | --- | --- |

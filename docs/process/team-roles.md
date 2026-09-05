@@ -5,8 +5,8 @@ Course vision listed Product Owner, Scrum Master, two developers, and one tester
 | Person | Product Owner | Scrum Master | Developer | Tester / QA |
 | --- | --- | --- | --- | --- |
 | **Damian J. Moore** | Primary | — | Auth, architecture, CI, Docker, production | Reviews Richard/Stephen PRs |
-| **Richard Hale** | — | Primary | Inventory, POS, sales log | Reviews Damian/Stephen PRs; calculation checks |
-| **Stephen Park** | — | Backup facilitator | Supplier orders, customer requests, backups | Primary QA: test plan, coverage gate, UAT script |
+| **Richard Mora** | — | Primary | Inventory, POS, sales log | Reviews Damian/Stephen PRs; calculation checks |
+| **Stephen Merten** | — | Backup facilitator | Supplier orders, customer requests, backups | Primary QA: test plan, coverage gate, UAT script |
 
 ## Why this split
 

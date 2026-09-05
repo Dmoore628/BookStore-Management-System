@@ -2,7 +2,7 @@
 
 **Status:** Accepted  
 **Date:** 2026-08-26  
-**Deciders:** Richard Hale, Damian J. Moore
+**Deciders:** Richard Mora, Damian J. Moore
 
 ## Context
 

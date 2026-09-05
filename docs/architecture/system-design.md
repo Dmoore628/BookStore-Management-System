@@ -1,6 +1,6 @@
 # System design — Ledger & Spine
 
-**Authors:** Damian J. Moore (architecture), Richard Hale (POS/inventory), Stephen Park (orders/QA)  
+**Authors:** Damian J. Moore (architecture), Richard Mora (POS/inventory), Stephen Merten (orders/QA)  
 **Status:** Implemented  
 **Date:** 2026-08-24
 
