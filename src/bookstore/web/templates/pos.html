@@ -1,0 +1,19 @@
+{% set active = 'pos' %}
+{% extends "base.html" %}
+{% block title %}Point of Sale{% endblock %}
+{% block heading %}Point of Sale{% endblock %}
+{% block content %}
+<div class="pos-layout">
+  <section class="search-panel">
+    <input type="search" placeholder="Search books..."
+           hx-get="/pos/search" hx-trigger="keyup changed delay:300ms"
+           hx-target="#search-results" name="q">
+    <div id="search-results">
+      {% include "partials/_search_results.html" %}
+    </div>
+  </section>
+  <section class="cart-panel" id="cart-panel">
+    {% include "partials/_cart.html" %}
+  </section>
+</div>
+{% endblock %}

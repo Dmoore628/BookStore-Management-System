@@ -1,0 +1,8 @@
+<h3>Receipt: {{ sale.id }}</h3>
+<table>
+  {% for line in sale.lines %}
+  <tr><td>{{ line.book.title }}</td><td>{{ line.quantity }}</td><td>{{ line.price }}</td></tr>
+  {% endfor %}
+</table>
+<div class="row"><strong>Total:</strong> {{ sale.total }}</div>
+<a href="/pos" class="btn">New Sale</a>

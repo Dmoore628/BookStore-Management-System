@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% set active = 'inventory' %}
+{% block title %}Inventory{% endblock %}
+{% block heading %}Inventory{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Inventory</h1>
+    <p class="muted">Stock updates automatically as books are sold and received.</p>
+  </div>
+  <input class="input" type="search" name="q" placeholder="Search title, author, ISBN…"
+         value="{{ q }}" aria-label="Search books"
+         hx-get="/inventory" hx-target="#inv-table" hx-trigger="keyup changed delay:300ms, search"
+         hx-push-url="false" style="min-width:280px" />
+</div>
+
+{% if can_manage %}
+<div class="card" style="margin-bottom:var(--space-5)">
+  <h2>Add a book</h2>
+  <form method="post" action="/inventory" class="row wrap" style="align-items:flex-end">
+    <div class="field" style="margin:0"><label>Title</label><input class="input" name="title" required></div>
+    <div class="field" style="margin:0"><label>Author</label><input class="input" name="author" required></div>
+    <div class="field" style="margin:0"><label>ISBN</label><input class="input" name="isbn" required></div>
+    <div class="field" style="margin:0"><label>Price</label><input class="input" name="price" type="number" step="0.01" min="0" required></div>
+    <div class="field" style="margin:0"><label>Qty</label><input class="input" name="quantity" type="number" min="0" value="0" style="width:80px"></div>
+    <div class="field" style="margin:0"><label>Shelf</label><input class="input" name="shelf_location" style="width:90px"></div>
+    <button class="btn primary" type="submit">Add book</button>
+  </form>
+</div>
+{% endif %}
+
+<div class="card">
+  <div id="inv-table">
+    {% include "partials/_inventory_rows.html" %}
+  </div>
+</div>
+{% endblock %}

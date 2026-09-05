@@ -1,0 +1,22 @@
+<h3>Cart</h3>
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+<table>
+  {% for line in cart.lines %}
+  <tr>
+    <td>{{ line.book.title }}</td>
+    <td>{{ line.quantity }}</td>
+    <td>
+      <form hx-post="/pos/cart/remove" hx-target="#cart-panel">
+        <input type="hidden" name="book_id" value="{{ line.book_id }}">
+        <button type="submit" class="btn sm ghost">X</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<div class="row"><strong>Subtotal:</strong> {{ totals.subtotal }}</div>
+<form hx-post="/pos/checkout" hx-target="#cart-panel">
+  <select name="payment_method"><option value="cash">Cash</option><option value="card">Card</option></select>
+  <input type="text" name="tender" placeholder="Tender">
+  <button type="submit" class="btn">Checkout</button>
+</form>

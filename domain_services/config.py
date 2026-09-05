@@ -43,6 +43,10 @@ class Settings(BaseSettings):
     tax_rate_bps: int = 725
     store_tz: str = "America/Denver"
     currency: str = "USD"
+    low_stock_threshold: int = 3
+
+    # --- Schema bootstrap (dev/demo convenience; migrations own prod schema) ---
+    auto_create_schema: bool = True
 
     # --- Backups ---
     backup_destination: str = "file://./backups"

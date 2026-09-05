@@ -59,6 +59,13 @@ def get_engine() -> Engine:
     return _engine
 
 
+def set_test_session_factory(engine: Engine) -> None:
+    """Override the session factory for testing."""
+    global _engine, _SessionLocal
+    _engine = engine
+    _SessionLocal = sessionmaker(bind=_engine, autoflush=False, expire_on_commit=False)
+
+
 def get_db() -> Iterator[Session]:
     """FastAPI dependency: yield a session and always close it."""
     session = _session_factory()()
