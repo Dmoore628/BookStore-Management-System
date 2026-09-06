@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from bookstore.api.deps import get_db, require_roles
-from bookstore.models.enums import Role
-from bookstore.schemas import RequestIn, RequestStatusIn
-from bookstore.services import requests
+from api_server.deps import get_db, require_roles
+from domain_services.enums import Role
+from api_server.schemas import RequestIn, RequestStatusIn
+from domain_services import requests
 
 router = APIRouter(prefix="/requests", tags=["requests"])
 
@@ -25,3 +25,4 @@ def update_status(request_id: int, data: RequestStatusIn, db: Session = Depends(
         return requests.update_status(db, request_id, data.status)
     except requests.RequestError as e:
         raise HTTPException(status_code=400, detail=str(e))
+

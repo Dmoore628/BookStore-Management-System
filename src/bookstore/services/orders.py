@@ -9,12 +9,11 @@ from __future__ import annotations
 from collections.abc import Sequence
 from datetime import UTC, datetime
 
+from domain_services import inventory
+from domain_services.entities import SupplierOrder, SupplierOrderLine
+from domain_services.enums import OrderStatus
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-
-from bookstore.models.entities import SupplierOrder, SupplierOrderLine
-from bookstore.models.enums import OrderStatus
-from bookstore.services import inventory
 
 
 class OrderError(Exception):
@@ -60,3 +59,4 @@ def receive_order(db: Session, order_id: int, *, actor_id: int | None = None) ->
     order.received_at = datetime.now(UTC).replace(tzinfo=None)
     db.flush()
     return order
+

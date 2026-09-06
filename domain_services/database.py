@@ -13,7 +13,7 @@ from typing import Any
 from sqlalchemy import Engine, create_engine, event
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
-from bookstore.config import get_settings
+from domain_services.config import get_settings
 
 
 class Base(DeclarativeBase):
@@ -73,3 +73,4 @@ def get_db() -> Iterator[Session]:
         yield session
     finally:
         session.close()
+

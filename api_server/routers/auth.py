@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from sqlalchemy.orm import Session
-from bookstore.schemas import LoginIn
-from bookstore.services import auth
-from bookstore.api.deps import SESSION_USER_KEY, require_user, get_db
-from bookstore.models.entities import User
+from api_server.schemas import LoginIn
+from domain_services import auth
+from api_server.deps import SESSION_USER_KEY, require_user, get_db
+from domain_services.entities import User
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -22,3 +22,4 @@ def login(credentials: LoginIn, request: Request, db: Session = Depends(get_db))
 def logout(request: Request, user: User = Depends(require_user)) -> dict[str, str]:
     request.session.pop(SESSION_USER_KEY, None)
     return {"message": "Logged out"}
+

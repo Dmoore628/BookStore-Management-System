@@ -17,11 +17,10 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
+from domain_services.config import get_settings
+from domain_services.database import Base
 from sqlalchemy import inspect, select
 from sqlalchemy.orm import Session
-
-from bookstore.config import get_settings
-from bookstore.database import Base
 
 _TABLE_ORDER = [
     "users",
@@ -88,3 +87,4 @@ def run_backup(db: Session, *, destination: str | None = None) -> BackupResult:
         table_count=len(payload),
         row_count=sum(len(rows) for rows in payload.values()),
     )
+

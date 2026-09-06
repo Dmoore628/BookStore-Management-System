@@ -11,17 +11,17 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from bookstore.api.deps import (
+from api_server.deps import (
     SESSION_USER_KEY,
     get_cart_sid,
     get_current_user,
     get_db,
 )
-from bookstore.config import get_settings
-from bookstore.models.entities import Book, CustomerRequest, SupplierOrder, User
-from bookstore.models.enums import OrderStatus, PaymentMethod, RequestStatus, Role
-from bookstore.services import auth, cart, inventory, orders, requests, sales
-from bookstore.web.templating import render
+from domain_services.config import get_settings
+from domain_services.entities import Book, CustomerRequest, SupplierOrder, User
+from domain_services.enums import OrderStatus, PaymentMethod, RequestStatus, Role
+from domain_services import auth, cart, inventory, orders, requests, sales
+from web_client.templating import render
 
 router = APIRouter(tags=["web"])
 
@@ -467,3 +467,4 @@ def requests_status(
     except (requests.RequestError, ValueError):
         db.rollback()
     return RedirectResponse("/requests", status_code=303)
+

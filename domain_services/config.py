@@ -90,3 +90,4 @@ def get_settings() -> Settings:
 def reset_settings_cache() -> None:
     """Clear the cached settings (used by tests that mutate the environment)."""
     get_settings.cache_clear()
+

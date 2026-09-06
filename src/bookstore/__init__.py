@@ -6,3 +6,4 @@ order-management modules on one database.
 """
 
 __version__ = "1.0.0"
+

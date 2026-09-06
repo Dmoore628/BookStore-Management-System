@@ -1,8 +1,8 @@
 import pytest
+from domain_services.database import Base
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
-from bookstore.database import Base
-from bookstore.models.entities import User
+
 
 @pytest.fixture
 def db():
@@ -17,3 +17,4 @@ def test_table_exists(db):
     result = db.execute(text("SELECT name FROM sqlite_master WHERE type='table'")).fetchall()
     print(f"Tables: {result}")
     assert ('users',) in result
+

@@ -6,7 +6,7 @@ from decimal import Decimal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from bookstore.models.enums import OrderStatus, PaymentMethod, RequestStatus, Role
+from domain_services.enums import OrderStatus, PaymentMethod, RequestStatus, Role
 
 
 class LoginIn(BaseModel):
@@ -113,3 +113,4 @@ __all__ = [
     "UserOut",
     "OrderStatus",
 ]
+

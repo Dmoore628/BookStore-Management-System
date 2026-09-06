@@ -1,9 +1,8 @@
 import pytest
+from domain_services import requests
+from domain_services.enums import RequestStatus
+from domain_services.requests import RequestError
 from sqlalchemy.orm import Session
-
-from bookstore.models.enums import RequestStatus
-from bookstore.services import requests
-from bookstore.services.requests import RequestError
 
 
 def test_create_request_encrypts_pii(db: Session) -> None:
@@ -43,3 +42,4 @@ def test_list_requests_filters_by_status(db: Session) -> None:
     requests.create_request(db, customer_name="A", customer_contact="1", book_title="X")
     assert len(requests.list_requests(db, status=RequestStatus.NEW)) == 1
     assert len(requests.list_requests(db, status=RequestStatus.FULFILLED)) == 0
+

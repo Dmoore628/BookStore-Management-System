@@ -8,8 +8,7 @@ SQLite database.
 from __future__ import annotations
 
 import os
-from collections.abc import Callable, Iterator
-from decimal import Decimal
+from collections.abc import Iterator
 
 from cryptography.fernet import Fernet
 
@@ -19,25 +18,19 @@ os.environ.setdefault("TAX_RATE_BPS", "700")
 os.environ.setdefault("STORE_TZ", "America/Denver")
 os.environ.setdefault("DATABASE_URL", "sqlite:///:memory:")
 
-import pytest  # noqa: E402
+import domain_services.entities  # noqa: E402,F401  (registers tables on Base.metadata)
 import httpx
-from sqlalchemy.orm import Session, sessionmaker  # noqa: E402
-
-import bookstore.models  # noqa: E402,F401  (registers tables on Base.metadata)
-from bookstore.config import reset_settings_cache  # noqa: E402
-from bookstore.database import Base, make_engine  # noqa: E402
-from bookstore.models.entities import Book, User  # noqa: E402
-from bookstore.models.enums import Role  # noqa: E402
-from bookstore.security import hash_password  # noqa: E402
+import pytest  # noqa: E402
+from domain_services.database import Base  # noqa: E402
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker  # noqa: E402
 
 ...
 
-from sqlalchemy import create_engine
 _TEST_ENGINE = create_engine("sqlite:///:memory:", connect_args={"check_same_thread": False})
 # Force table creation on the test engine specifically
-from bookstore.models.entities import *  # noqa: F403
+from domain_services.entities import *  # noqa: F403
+
 Base.metadata.create_all(_TEST_ENGINE)
 
 @pytest.fixture
@@ -51,10 +44,10 @@ def db() -> Iterator[Session]:
 
 @pytest.fixture
 async def client(db: Session) -> Iterator[httpx.AsyncClient]:
-    from httpx import AsyncClient, ASGITransport
-    from bookstore.main import app
-    from bookstore.api.deps import get_db
-    from bookstore.database import get_engine
+    from api_server.deps import get_db
+    from api_server.main import app
+    from domain_services.database import get_engine
+    from httpx import ASGITransport, AsyncClient
 
     def _get_db_override():
         yield db
@@ -67,4 +60,5 @@ async def client(db: Session) -> Iterator[httpx.AsyncClient]:
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as c:
         yield c
     app.dependency_overrides.clear()
+
 

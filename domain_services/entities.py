@@ -23,8 +23,8 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from bookstore.database import Base
-from bookstore.models.enums import (
+from domain_services.database import Base
+from domain_services.enums import (
     OrderStatus,
     PaymentMethod,
     RequestStatus,
@@ -193,3 +193,4 @@ class CustomerRequest(Base):
     updated_at: Mapped[datetime] = mapped_column(
         DateTime, default=_now, onupdate=_now
     )
+

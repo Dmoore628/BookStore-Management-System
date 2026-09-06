@@ -2,12 +2,11 @@ from collections.abc import Callable
 from decimal import Decimal
 
 import pytest
+from domain_services import cart
+from domain_services.cart import EmptyCart, InsufficientStock
+from domain_services.entities import Book, Sale
+from domain_services.enums import PaymentMethod
 from sqlalchemy.orm import Session
-
-from bookstore.models.entities import Book, Sale
-from bookstore.models.enums import PaymentMethod
-from bookstore.services import cart
-from bookstore.services.cart import EmptyCart, InsufficientStock
 
 TAX = Decimal("0.07")
 
@@ -97,3 +96,4 @@ def test_checkout_rolls_back_if_any_line_short(
     db.refresh(plenty)
     assert plenty.quantity == 5  # nothing decremented
     assert db.query(Sale).count() == 0
+

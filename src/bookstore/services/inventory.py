@@ -12,11 +12,10 @@ from collections.abc import Sequence
 from decimal import Decimal
 from typing import Any, cast
 
+from domain_services.entities import Book, StockMovement
+from domain_services.enums import StockReason
 from sqlalchemy import CursorResult, or_, select, update
 from sqlalchemy.orm import Session
-
-from bookstore.models.entities import Book, StockMovement
-from bookstore.models.enums import StockReason
 
 
 class InventoryError(Exception):
@@ -192,3 +191,4 @@ def try_decrement(db: Session, book_id: int, quantity: int, *, actor_id: int | N
     )
     db.flush()
     return True
+

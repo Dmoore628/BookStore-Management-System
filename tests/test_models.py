@@ -1,11 +1,10 @@
 from decimal import Decimal
 
 import pytest
+from domain_services.entities import Book, Cart, CartLine, StockMovement
+from domain_services.enums import StockReason
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
-
-from bookstore.models.entities import Book, Cart, CartLine, StockMovement
-from bookstore.models.enums import StockReason
 
 
 def test_book_defaults(db: Session) -> None:
@@ -38,3 +37,4 @@ def test_cartline_unique_per_cart_book(db: Session) -> None:
     db.add(CartLine(cart_id=cart.id, book_id=book.id, quantity=1))
     with pytest.raises(IntegrityError):
         db.flush()
+

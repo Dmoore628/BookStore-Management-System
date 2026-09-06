@@ -1,12 +1,11 @@
 from collections.abc import Callable
 
 import pytest
+from domain_services import orders
+from domain_services.entities import Book
+from domain_services.enums import OrderStatus
+from domain_services.orders import OrderError
 from sqlalchemy.orm import Session
-
-from bookstore.models.entities import Book
-from bookstore.models.enums import OrderStatus
-from bookstore.services import orders
-from bookstore.services.orders import OrderError
 
 
 def test_create_and_receive_increments_stock(
@@ -40,3 +39,4 @@ def test_list_orders_filters_by_status(db: Session, make_book: Callable[..., Boo
     orders.create_order(db, supplier="A", lines=[(book.id, 1)])
     assert len(orders.list_orders(db, status=OrderStatus.PENDING)) == 1
     assert len(orders.list_orders(db, status=OrderStatus.RECEIVED)) == 0
+

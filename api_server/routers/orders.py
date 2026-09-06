@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from bookstore.api.deps import get_db, require_roles, require_user
-from bookstore.models.enums import Role
-from bookstore.schemas import OrderIn
-from bookstore.services import orders
-from bookstore.models.entities import User
+from api_server.deps import get_db, require_roles, require_user
+from domain_services.enums import Role
+from api_server.schemas import OrderIn
+from domain_services import orders
+from domain_services.entities import User
 
 router = APIRouter(prefix="/orders", tags=["orders"])
 
@@ -26,3 +26,4 @@ def receive_order(order_id: int, db: Session = Depends(get_db), user: User = Dep
         return orders.receive_order(db, order_id, actor_id=user.id)
     except orders.OrderError as e:
         raise HTTPException(status_code=400, detail=str(e))
+

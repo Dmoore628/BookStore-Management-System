@@ -10,12 +10,11 @@ from __future__ import annotations
 from collections.abc import Sequence
 from dataclasses import dataclass
 
+from domain_services.entities import CustomerRequest
+from domain_services.enums import RequestStatus
+from domain_services.security import decrypt, encrypt
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-
-from bookstore.models.entities import CustomerRequest
-from bookstore.models.enums import RequestStatus
-from bookstore.security import decrypt, encrypt
 
 _ALLOWED: dict[RequestStatus, set[RequestStatus]] = {
     RequestStatus.NEW: {RequestStatus.ORDERED, RequestStatus.CANCELLED},
@@ -87,3 +86,4 @@ def update_status(
     request.status = new_status
     db.flush()
     return request
+

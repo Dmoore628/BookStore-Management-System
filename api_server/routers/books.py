@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from bookstore.api.deps import get_db, require_roles
-from bookstore.models.enums import Role
-from bookstore.schemas import BookIn, BookEdit, BookOut, ReceiveIn, CorrectIn
-from bookstore.services import inventory
-from bookstore.api.deps import require_user
-from bookstore.models.entities import User
+from api_server.deps import get_db, require_roles
+from domain_services.enums import Role
+from api_server.schemas import BookIn, BookEdit, BookOut, ReceiveIn, CorrectIn
+from domain_services import inventory
+from api_server.deps import require_user
+from domain_services.entities import User
 
 router = APIRouter(prefix="/books", tags=["books"])
 
@@ -39,3 +39,4 @@ def correct_stock(book_id: int, data: CorrectIn, db: Session = Depends(get_db), 
         return {"message": "Stock corrected"}
     except inventory.BookNotFound:
         raise HTTPException(status_code=404, detail="Book not found")
+

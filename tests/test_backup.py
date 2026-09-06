@@ -1,10 +1,9 @@
 from collections.abc import Callable
 from pathlib import Path
 
+from domain_services import backup
+from domain_services.entities import Book
 from sqlalchemy.orm import Session
-
-from bookstore.models.entities import Book
-from bookstore.services import backup
 
 
 def test_backup_writes_to_file_destination(
@@ -31,3 +30,4 @@ def test_payload_contains_all_tables(db: Session) -> None:
         "supplier_order_lines",
         "customer_requests",
     } == set(payload)
+

@@ -1,6 +1,6 @@
 """ORM models and enumerations."""
 
-from bookstore.models.entities import (
+from domain_services.entities import (
     Book,
     Cart,
     CartLine,
@@ -12,7 +12,7 @@ from bookstore.models.entities import (
     SupplierOrderLine,
     User,
 )
-from bookstore.models.enums import (
+from domain_services.enums import (
     OrderStatus,
     PaymentMethod,
     RequestStatus,
@@ -37,3 +37,4 @@ __all__ = [
     "Role",
     "StockReason",
 ]
+

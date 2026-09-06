@@ -5,9 +5,9 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-from bookstore.config import get_settings
-from bookstore.database import Base
-from bookstore.models import entities  # noqa: F401
+from domain_services.config import get_settings
+from domain_services.database import Base
+from domain_services import entities  # noqa: F401
 
 config = context.config
 if config.config_file_name is not None:
@@ -40,3 +40,4 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     run_migrations_online()
+

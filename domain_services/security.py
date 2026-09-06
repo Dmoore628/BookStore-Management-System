@@ -10,7 +10,7 @@ from __future__ import annotations
 import bcrypt
 from cryptography.fernet import Fernet
 
-from bookstore.config import get_settings
+from domain_services.config import get_settings
 
 _BCRYPT_ROUNDS = 12
 
@@ -41,3 +41,4 @@ def encrypt(plaintext: str) -> str:
 def decrypt(token: str) -> str:
     """Decrypt a token produced by :func:`encrypt`."""
     return _fernet().decrypt(token.encode("utf-8")).decode("utf-8")
+

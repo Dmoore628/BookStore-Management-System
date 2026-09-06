@@ -13,11 +13,10 @@ from datetime import date, datetime, time, timedelta
 from decimal import Decimal
 from zoneinfo import ZoneInfo
 
+from domain_services.entities import Sale
+from domain_services.enums import PaymentMethod
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-
-from bookstore.models.entities import Sale
-from bookstore.models.enums import PaymentMethod
 
 
 def _utc_bounds(day: date, tz: str) -> tuple[datetime, datetime]:
@@ -66,3 +65,4 @@ def daily_totals(db: Session, day: date, tz: str) -> DailyTotals:
         total=Decimal(cash) + Decimal(card),
         count=len(sales),
     )
+

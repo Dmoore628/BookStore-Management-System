@@ -65,3 +65,4 @@ def quote(
         change = to_cents(tender - total)
 
     return Quote(subtotal=subtotal, tax=tax, total=total, change=change)
+

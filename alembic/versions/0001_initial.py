@@ -7,8 +7,8 @@ Create Date: 2026-08-24
 
 from alembic import op
 
-from bookstore.database import Base
-from bookstore.models import entities as _entities  # noqa: F401
+from domain_services.database import Base
+from domain_services import entities as _entities  # noqa: F401
 
 revision = "0001_initial"
 down_revision = None
@@ -22,3 +22,4 @@ def upgrade() -> None:
 
 def downgrade() -> None:
     Base.metadata.drop_all(bind=op.get_bind())
+

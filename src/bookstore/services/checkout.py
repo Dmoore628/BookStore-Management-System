@@ -7,8 +7,8 @@ from __future__ import annotations
 
 from decimal import Decimal
 
-from bookstore.models.enums import PaymentMethod
-from bookstore.services.money import Quote, quote
+from domain_services.enums import PaymentMethod
+from domain_services.money import Quote, quote
 
 
 class CheckoutError(Exception):
@@ -28,3 +28,4 @@ def quote_cart(
             raise CheckoutError("cash payment requires a tender amount")
         return quote(lines, tax_rate=tax_rate, tender=tender)
     return quote(lines, tax_rate=tax_rate, tender=None)
+

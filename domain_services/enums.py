@@ -38,3 +38,4 @@ class RequestStatus(StrEnum):
     ORDERED = "ordered"
     FULFILLED = "fulfilled"
     CANCELLED = "cancelled"
+

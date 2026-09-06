@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from bookstore.api.deps import get_db, require_roles
-from bookstore.models.enums import Role
-from bookstore.services import backup
+from api_server.deps import get_db, require_roles
+from domain_services.enums import Role
+from domain_services import backup
 
 router = APIRouter(prefix="/backup", tags=["backup"])
 
@@ -12,3 +12,4 @@ def run_backup(
     user=Depends(require_roles(Role.OWNER)),
 ):
     return backup.run_backup(db)
+

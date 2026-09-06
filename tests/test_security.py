@@ -1,4 +1,4 @@
-from bookstore.security import decrypt, encrypt, hash_password, verify_password
+from domain_services.security import decrypt, encrypt, hash_password, verify_password
 
 
 def test_hash_verify_roundtrip() -> None:
@@ -23,3 +23,4 @@ def test_encrypt_decrypt_roundtrip() -> None:
 
 def test_ciphertext_is_non_deterministic() -> None:
     assert encrypt("same") != encrypt("same")
+

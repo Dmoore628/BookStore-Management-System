@@ -10,14 +10,13 @@ from __future__ import annotations
 
 from decimal import Decimal
 
+from domain_services import inventory
+from domain_services.checkout import quote_cart
+from domain_services.entities import Book, Cart, CartLine, Sale, SaleLine
+from domain_services.enums import PaymentMethod
+from domain_services.money import Quote, line_total
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-
-from bookstore.models.entities import Book, Cart, CartLine, Sale, SaleLine
-from bookstore.models.enums import PaymentMethod
-from bookstore.services import inventory
-from bookstore.services.checkout import quote_cart
-from bookstore.services.money import Quote, line_total
 
 
 class CartError(Exception):
@@ -164,3 +163,4 @@ def checkout(
     cart.lines.clear()
     db.flush()
     return sale
+

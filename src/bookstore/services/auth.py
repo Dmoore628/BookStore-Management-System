@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
+from domain_services.entities import User
+from domain_services.enums import Role
+from domain_services.security import verify_password
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-
-from bookstore.models.entities import User
-from bookstore.models.enums import Role
-from bookstore.security import verify_password
 
 
 class AuthorizationError(Exception):
@@ -35,3 +34,4 @@ def require_role(user: User, *allowed: Role) -> None:
             f"{user.username} ({user.role}) is not permitted; requires one of "
             f"{', '.join(r.value for r in allowed)}"
         )
+

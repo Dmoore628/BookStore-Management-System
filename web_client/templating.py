@@ -9,8 +9,8 @@ from fastapi import Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from bookstore.config import get_settings
-from bookstore.models.entities import User
+from domain_services.config import get_settings
+from domain_services.entities import User
 
 _TEMPLATE_DIR = Path(__file__).parent / "templates"
 STATIC_DIR = Path(__file__).parent / "static"
@@ -44,3 +44,4 @@ def render(
     if context:
         merged.update(context)
     return templates.TemplateResponse(template, merged, status_code=status_code)
+

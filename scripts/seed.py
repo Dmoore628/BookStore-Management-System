@@ -11,12 +11,12 @@ from decimal import Decimal
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from bookstore.config import get_settings
-from bookstore.database import Base, get_engine
-from bookstore.models.entities import Sale, User
-from bookstore.models.enums import PaymentMethod, Role
-from bookstore.security import hash_password
-from bookstore.services import cart, inventory
+from domain_services.config import get_settings
+from domain_services.database import Base, get_engine
+from domain_services.entities import Sale, User
+from domain_services.enums import PaymentMethod, Role
+from domain_services.security import hash_password
+from domain_services import cart, inventory
 
 DEMO_BOOKS = [
     ("The Pragmatic Programmer", "Hunt & Thomas", "9780135957059", "49.99", 12, "A1"),
@@ -86,3 +86,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

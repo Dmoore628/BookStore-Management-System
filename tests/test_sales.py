@@ -1,11 +1,10 @@
 from datetime import date, datetime
 from decimal import Decimal
 
+from domain_services import sales
+from domain_services.entities import Sale
+from domain_services.enums import PaymentMethod
 from sqlalchemy.orm import Session
-
-from bookstore.models.entities import Sale
-from bookstore.models.enums import PaymentMethod
-from bookstore.services import sales
 
 TZ = "America/Denver"
 
@@ -40,3 +39,4 @@ def test_sale_near_midnight_uses_store_tz(db: Session) -> None:
     db.flush()
     assert sales.daily_totals(db, date(2026, 9, 9), TZ).count == 1
     assert sales.daily_totals(db, date(2026, 9, 10), TZ).count == 0
+

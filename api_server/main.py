@@ -16,12 +16,12 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 from starlette.middleware.sessions import SessionMiddleware
 
-from bookstore.config import get_settings
-from bookstore.database import Base, get_engine
-from bookstore.models.entities import User
-from bookstore.models.enums import Role
-from bookstore.security import hash_password
-from bookstore.api.routers import (
+from domain_services.config import get_settings
+from domain_services.database import Base, get_engine
+from domain_services.entities import User
+from domain_services.enums import Role
+from domain_services.security import hash_password
+from api_server.routers import (
     auth as auth_router,
     books as books_router,
     cart as cart_router,
@@ -30,8 +30,8 @@ from bookstore.api.routers import (
     requests as requests_router,
     backup as backup_router,
 )
-from bookstore.web.pages import router as web_router
-from bookstore.web.templating import STATIC_DIR
+from web_client.pages import router as web_router
+from web_client.templating import STATIC_DIR
 
 
 def _ensure_schema_and_owner() -> None:
@@ -90,3 +90,4 @@ def create_app() -> FastAPI:
 
 
 app = create_app()
+

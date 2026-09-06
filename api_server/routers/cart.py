@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from bookstore.api.deps import get_db, get_cart_sid, require_user
-from bookstore.schemas import CartLineIn, CheckoutIn, QuantityIn
-from bookstore.services import cart
-from bookstore.config import get_settings
-from bookstore.models.entities import User
+from api_server.deps import get_db, get_cart_sid, require_user
+from api_server.schemas import CartLineIn, CheckoutIn, QuantityIn
+from domain_services import cart
+from domain_services.config import get_settings
+from domain_services.entities import User
 
 router = APIRouter(prefix="/cart", tags=["cart"])
 
@@ -46,3 +46,4 @@ def checkout(data: CheckoutIn, db: Session = Depends(get_db), c=Depends(get_acti
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Cart is empty")
     except cart.InsufficientStock as e:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
+

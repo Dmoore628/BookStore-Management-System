@@ -1,8 +1,9 @@
 import pytest
+from domain_services.entities import User
+from domain_services.enums import Role
+from domain_services.security import hash_password
 from httpx import AsyncClient
-from bookstore.models.entities import User
-from bookstore.models.enums import Role
-from bookstore.security import hash_password
+
 
 @pytest.fixture
 def owner_client(client, db):
@@ -24,3 +25,4 @@ async def test_list_books(client: AsyncClient, db):
 async def test_add_book_unauthorized(client: AsyncClient):
     response = await client.post("/api/books/", json={"title": "New Book", "author": "Author", "price": "10.00", "quantity": 1})
     assert response.status_code == 401
+

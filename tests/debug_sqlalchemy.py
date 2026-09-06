@@ -1,10 +1,11 @@
 import pytest
+from domain_services.database import Base
+from domain_services.entities import User
+from domain_services.enums import Role
+from domain_services.security import hash_password
 from sqlalchemy import create_engine
-from bookstore.database import Base
-from bookstore.models.entities import User
-from bookstore.models.enums import Role
-from bookstore.security import hash_password
 from sqlalchemy.orm import sessionmaker
+
 
 @pytest.fixture
 def db_session():
@@ -20,3 +21,4 @@ def test_user_query(db_session):
     user = db_session.query(User).filter_by(username="testuser").first()
     assert user is not None
     assert user.username == "testuser"
+

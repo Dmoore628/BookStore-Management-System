@@ -13,10 +13,10 @@ from collections.abc import Iterator
 from fastapi import Depends, HTTPException, Request, status
 from sqlalchemy.orm import Session
 
-from bookstore.database import get_db as _get_db
-from bookstore.models.entities import User
-from bookstore.models.enums import Role
-from bookstore.services import auth
+from domain_services.database import get_db as _get_db
+from domain_services.entities import User
+from domain_services.enums import Role
+from domain_services import auth
 
 SESSION_USER_KEY = "user_id"
 SESSION_CART_KEY = "cart_sid"
@@ -59,3 +59,4 @@ def get_cart_sid(request: Request) -> str:
         sid = secrets.token_urlsafe(24)
         request.session[SESSION_CART_KEY] = sid
     return sid
+

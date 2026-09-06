@@ -1,9 +1,8 @@
 from decimal import Decimal
 
 import pytest
+from domain_services.config import Settings
 from pydantic import ValidationError
-
-from bookstore.config import Settings
 
 
 def test_settings_reads_env(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -34,3 +33,4 @@ def test_negative_tax_rejected(monkeypatch: pytest.MonkeyPatch) -> None:
 def test_is_sqlite_flag(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("DATABASE_URL", "sqlite:///./x.db")
     assert Settings(_env_file=None).is_sqlite is True  # type: ignore[call-arg]
+
