@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "src/bookstore/main.py",
+      "src": "api_server/main.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "src/bookstore/main.py"
+      "dest": "api_server/main.py"
     }
   ]
 }
