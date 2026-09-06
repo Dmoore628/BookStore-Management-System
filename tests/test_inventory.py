@@ -2,12 +2,11 @@ from collections.abc import Callable
 from decimal import Decimal
 
 import pytest
+from domain_services import inventory
+from domain_services.entities import Book, StockMovement
+from domain_services.enums import StockReason
+from domain_services.inventory import BookNotFound, DuplicateISBN, InventoryError
 from sqlalchemy.orm import Session
-
-from bookstore.models.entities import Book, StockMovement
-from bookstore.models.enums import StockReason
-from bookstore.services import inventory
-from bookstore.services.inventory import BookNotFound, DuplicateISBN, InventoryError
 
 
 def test_add_book_records_initial_movement(db: Session) -> None:
@@ -87,3 +86,4 @@ def test_search_matches_title_author_isbn(db: Session, make_book: Callable[..., 
     assert len(inventory.search(db, "Evans")) == 1
     assert len(inventory.search(db, "DDD")) == 1
     assert len(inventory.search(db, "nothing")) == 0
+

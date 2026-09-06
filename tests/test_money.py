@@ -1,8 +1,7 @@
 from decimal import Decimal
 
 import pytest
-
-from bookstore.services.money import (
+from domain_services.money import (
     InsufficientTender,
     MoneyError,
     Quote,
@@ -48,3 +47,4 @@ def test_quote_without_tender_has_no_change() -> None:
 def test_quote_insufficient_tender_raises() -> None:
     with pytest.raises(InsufficientTender):
         quote([(Decimal("10.00"), 1)], tax_rate=Decimal("0.07"), tender=Decimal("5.00"))
+

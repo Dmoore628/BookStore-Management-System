@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% set active = 'home' %}
+{% block title %}Dashboard{% endblock %}
+{% block heading %}Dashboard{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Good day, {{ current_user.username|capitalize }}</h1>
+    <p class="muted">Store overview for {{ today.strftime('%A, %B %-d, %Y') if today.strftime('%-d') else today }}</p>
+  </div>
+  <a class="btn primary" href="/pos">Open Point of Sale</a>
+</div>
+
+<div class="grid cols-4">
+  <div class="card stat">
+    <div class="label">Today&rsquo;s sales</div>
+    <div class="value mono">{{ totals.total|money }}</div>
+    <div class="sub">{{ totals.count }} transaction{{ '' if totals.count == 1 else 's' }}</div>
+  </div>
+  <div class="card stat">
+    <div class="label">Cash / Card</div>
+    <div class="value mono" style="font-size:var(--text-xl)">{{ totals.cash_total|money }}<br>{{ totals.card_total|money }}</div>
+    <div class="sub">cash · card</div>
+  </div>
+  <div class="card stat">
+    <div class="label">Active titles</div>
+    <div class="value">{{ active_titles }}</div>
+    <div class="sub">
+      {% if low_stock %}<span class="badge warn">{{ low_stock }} low on stock</span>
+      {% else %}<span class="badge ok">stock healthy</span>{% endif %}
+    </div>
+  </div>
+  <div class="card stat">
+    <div class="label">Open work</div>
+    <div class="value">{{ open_orders + open_requests }}</div>
+    <div class="sub">{{ open_orders }} orders · {{ open_requests }} requests</div>
+  </div>
+</div>
+
+<div class="grid cols-2" style="margin-top:var(--space-5)">
+  <div class="card">
+    <h2>Quick actions</h2>
+    <div class="row wrap">
+      <a class="btn" href="/pos">Ring up a sale</a>
+      <a class="btn" href="/inventory">Manage inventory</a>
+      {% if current_user.role in ['owner', 'manager'] %}
+      <a class="btn" href="/orders">Receive a shipment</a>
+      {% endif %}
+      <a class="btn" href="/requests">Log a request</a>
+    </div>
+  </div>
+  <div class="card">
+    <h2>About this console</h2>
+    <p class="muted">
+      Ledger &amp; Spine replaces the store&rsquo;s paper stock cards, cash-register log,
+      and special-order notebook. Inventory updates automatically as you sell and receive
+      stock, and customer contact details are encrypted at rest.
+    </p>
+  </div>
+</div>
+{% endblock %}

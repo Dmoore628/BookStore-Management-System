@@ -8,8 +8,7 @@ SQLite database.
 from __future__ import annotations
 
 import os
-from collections.abc import Callable, Iterator
-from decimal import Decimal
+from collections.abc import Iterator
 
 from cryptography.fernet import Fernet
 
@@ -19,59 +18,47 @@ os.environ.setdefault("TAX_RATE_BPS", "700")
 os.environ.setdefault("STORE_TZ", "America/Denver")
 os.environ.setdefault("DATABASE_URL", "sqlite:///:memory:")
 
+import domain_services.entities  # noqa: E402,F401  (registers tables on Base.metadata)
+import httpx
 import pytest  # noqa: E402
+from domain_services.database import Base  # noqa: E402
+from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker  # noqa: E402
 
-import bookstore.models  # noqa: E402,F401  (registers tables on Base.metadata)
-from bookstore.config import reset_settings_cache  # noqa: E402
-from bookstore.database import Base, make_engine  # noqa: E402
-from bookstore.models.entities import Book, User  # noqa: E402
-from bookstore.models.enums import Role  # noqa: E402
-from bookstore.security import hash_password  # noqa: E402
+...
 
-reset_settings_cache()
+_TEST_ENGINE = create_engine("sqlite:///:memory:", connect_args={"check_same_thread": False})
+# Force table creation on the test engine specifically
+from domain_services.entities import *  # noqa: F403
 
+Base.metadata.create_all(_TEST_ENGINE)
 
 @pytest.fixture
 def db() -> Iterator[Session]:
-    engine = make_engine("sqlite:///:memory:")
-    Base.metadata.create_all(engine)
-    factory = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False, future=True)
+    factory = sessionmaker(bind=_TEST_ENGINE, autoflush=False, expire_on_commit=False, future=True)
     session = factory()
     try:
         yield session
     finally:
         session.close()
-        engine.dispose()
-
 
 @pytest.fixture
-def make_book(db: Session) -> Callable[..., Book]:
-    def _make(
-        *,
-        title: str = "The Pragmatic Programmer",
-        author: str = "Hunt & Thomas",
-        isbn: str | None = None,
-        price: str = "39.99",
-        quantity: int = 10,
-    ) -> Book:
-        book = Book(
-            title=title,
-            author=author,
-            isbn=isbn or f"ISBN-{title[:6]}-{quantity}-{price}",
-            price=Decimal(price),
-            quantity=quantity,
-        )
-        db.add(book)
-        db.flush()
-        return book
+async def client(db: Session) -> Iterator[httpx.AsyncClient]:
+    from api_server.deps import get_db
+    from api_server.main import app
+    from domain_services.database import get_engine
+    from httpx import ASGITransport, AsyncClient
 
-    return _make
+    def _get_db_override():
+        yield db
+    
+    def _get_engine_override():
+        return _TEST_ENGINE
+
+    app.dependency_overrides[get_db] = _get_db_override
+    app.dependency_overrides[get_engine] = _get_engine_override
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as c:
+        yield c
+    app.dependency_overrides.clear()
 
 
-@pytest.fixture
-def owner(db: Session) -> User:
-    user = User(username="damian", password_hash=hash_password("owner-pass"), role=Role.OWNER)
-    db.add(user)
-    db.flush()
-    return user

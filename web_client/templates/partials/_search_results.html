@@ -1,0 +1,9 @@
+{% for book in results %}
+<div class="book-row">
+  <span>{{ book.title }}</span>
+  <form hx-post="/pos/cart/add" hx-target="#cart-panel">
+    <input type="hidden" name="book_id" value="{{ book.id }}">
+    <button type="submit" class="btn sm">Add</button>
+  </form>
+</div>
+{% endfor %}

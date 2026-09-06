@@ -1,9 +1,8 @@
 from decimal import Decimal
 
 import pytest
-
-from bookstore.models.enums import PaymentMethod
-from bookstore.services.checkout import CheckoutError, quote_cart
+from domain_services.checkout import CheckoutError, quote_cart
+from domain_services.enums import PaymentMethod
 
 
 def test_quote_matches_known_tax() -> None:
@@ -36,3 +35,4 @@ def test_cash_with_tender_returns_change() -> None:
     )
     assert result.total == Decimal("10.70")
     assert result.change == Decimal("9.30")
+

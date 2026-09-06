@@ -1,0 +1,34 @@
+{% set active = 'requests' %}
+{% extends "base.html" %}
+{% block title %}Customer Requests{% endblock %}
+{% block heading %}Customer Requests{% endblock %}
+{% block content %}
+<form method="post" class="row">
+  <input type="text" name="customer_name" placeholder="Name" required>
+  <input type="text" name="customer_contact" placeholder="Contact" required>
+  <input type="text" name="book_title" placeholder="Book Title" required>
+  <button type="submit" class="btn">Create Request</button>
+</form>
+<table>
+  <thead><tr><th>Customer</th><th>Contact</th><th>Book</th><th>Status</th><th>Update</th></tr></thead>
+  <tbody>
+    {% for req in requests %}
+    <tr>
+      <td>{{ req.customer_name }}</td>
+      <td>{{ req.customer_contact }}</td>
+      <td>{{ req.book_title }}</td>
+      <td>{{ req.status.value }}</td>
+      <td>
+        <form method="post" action="/requests/{{ req.id }}/status">
+          <select name="status" onchange="this.form.submit()">
+            <option value="new" {{ 'selected' if req.status.value == 'new' }}>New</option>
+            <option value="ordered" {{ 'selected' if req.status.value == 'ordered' }}>Ordered</option>
+            <option value="fulfilled" {{ 'selected' if req.status.value == 'fulfilled' }}>Fulfilled</option>
+          </select>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

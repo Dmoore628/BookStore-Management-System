@@ -1,11 +1,10 @@
 import pytest
+from domain_services import auth
+from domain_services.auth import AuthorizationError
+from domain_services.entities import User
+from domain_services.enums import Role
+from domain_services.security import hash_password
 from sqlalchemy.orm import Session
-
-from bookstore.models.entities import User
-from bookstore.models.enums import Role
-from bookstore.security import hash_password
-from bookstore.services import auth
-from bookstore.services.auth import AuthorizationError
 
 
 def test_authenticate_valid(db: Session, owner: User) -> None:
@@ -41,3 +40,4 @@ def test_require_role_denies(db: Session) -> None:
     db.flush()
     with pytest.raises(AuthorizationError):
         auth.require_role(cashier, Role.OWNER)
+

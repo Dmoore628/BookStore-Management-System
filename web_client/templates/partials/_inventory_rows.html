@@ -1,0 +1,40 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th><th>Author</th><th>ISBN</th><th>Shelf</th>
+      <th class="num">Price</th><th class="num">Qty</th>
+      {% if can_manage %}<th>Receive</th><th>Correct</th>{% endif %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for b in books %}
+    <tr>
+      <td><strong>{{ b.title }}</strong></td>
+      <td class="muted">{{ b.author }}</td>
+      <td class="muted">{{ b.isbn }}</td>
+      <td>{{ b.shelf_location or '—' }}</td>
+      <td class="num">{{ b.price|money }}</td>
+      <td class="num">
+        {% if b.quantity <= threshold %}<span class="badge warn">{{ b.quantity }}</span>
+        {% else %}{{ b.quantity }}{% endif %}
+      </td>
+      {% if can_manage %}
+      <td>
+        <form method="post" action="/inventory/{{ b.id }}/receive" class="row">
+          <input class="input" type="number" name="quantity" min="1" value="1" style="width:70px">
+          <button class="btn sm" type="submit">＋</button>
+        </form>
+      </td>
+      <td>
+        <form method="post" action="/inventory/{{ b.id }}/correct" class="row">
+          <input class="input" type="number" name="quantity" min="0" value="{{ b.quantity }}" style="width:70px">
+          <button class="btn sm" type="submit">Set</button>
+        </form>
+      </td>
+      {% endif %}
+    </tr>
+    {% else %}
+    <tr><td colspan="8" class="muted">No books found.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>

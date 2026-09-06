@@ -55,44 +55,35 @@ dev = [
 ]
 
 [tool.setuptools.packages.find]
-where = ["src"]
-
-[tool.setuptools.package-data]
-bookstore = ["web/templates/*.html", "web/static/*"]
+where = ["."]
+include = ["api_server*", "web_client*", "domain_services*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src"]
-addopts = "-q --cov=bookstore --cov-report=term-missing --cov-fail-under=80"
+pythonpath = ["."]
+addopts = "-q --cov=. --cov-report=term-missing --cov-fail-under=80"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
 markers = [
   "e2e: end-to-end browser tests (require a running app + Playwright browsers)",
   "load: performance/load tests (run manually or on schedule)",
 ]
 
 [tool.coverage.run]
-source = ["src/bookstore"]
-omit = ["src/bookstore/web/static/*", "src/bookstore/__main__.py"]
-
-[tool.coverage.report]
-exclude_lines = [
-  "pragma: no cover",
-  "if TYPE_CHECKING:",
-  "raise NotImplementedError",
-  "\\.\\.\\.",
-]
+source = ["api_server", "web_client", "domain_services"]
 
 [tool.ruff]
 line-length = 100
 target-version = "py311"
-src = ["src", "tests"]
+src = ["api_server", "web_client", "domain_services", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "C4", "SIM"]
 
 [tool.mypy]
 python_version = "3.11"
-mypy_path = "src"
-packages = ["bookstore"]
+mypy_path = "."
+packages = ["api_server", "web_client", "domain_services"]
 disallow_untyped_defs = true
 warn_unused_ignores = true
 warn_redundant_casts = true

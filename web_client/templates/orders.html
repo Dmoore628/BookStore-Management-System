@@ -1,0 +1,34 @@
+{% set active = 'orders' %}
+{% extends "base.html" %}
+{% block title %}Supplier Orders{% endblock %}
+{% block heading %}Supplier Orders{% endblock %}
+{% block content %}
+<form method="post" class="row">
+  <input type="text" name="supplier" placeholder="Supplier" required>
+  <select name="book_id" required>
+    {% for book in books %}<option value="{{ book.id }}">{{ book.title }}</option>{% endfor %}
+  </select>
+  <input type="number" name="quantity" placeholder="Qty" min="1" required>
+  <button type="submit" class="btn">Create Order</button>
+</form>
+<table>
+  <thead><tr><th>Supplier</th><th>Book</th><th>Qty</th><th>Status</th><th>Action</th></tr></thead>
+  <tbody>
+    {% for order in orders %}
+    <tr>
+      <td>{{ order.supplier }}</td>
+      <td>{{ order.lines[0].book.title }}</td>
+      <td>{{ order.lines[0].quantity }}</td>
+      <td>{{ order.status.value }}</td>
+      <td>
+        {% if order.status.value == 'pending' %}
+        <form method="post" action="/orders/{{ order.id }}/receive">
+          <button type="submit" class="btn sm">Receive</button>
+        </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
